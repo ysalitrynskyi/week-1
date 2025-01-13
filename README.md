@@ -46,7 +46,7 @@ Our 3 hosts for this week.
 
 ## ⏰ Timeline
 
-Deadline: January 16, 2024, 23:59 UTC. if you want to submit your 88 minute video and the link, you will find your way through the internet into that inforamtion
+Deadline: January 16, 2024, 23:59 UTC. if you want to submit your 88 second video and the link, you will find your way through the internet into that information.
 
 ## ❓ Questions?
 
