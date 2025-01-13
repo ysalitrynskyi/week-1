@@ -1,6 +1,8 @@
 # 🚀 Weekly Hackathon: Week One Template
 
-This is the official template repository for Week One of the Weekly Hackathon. Your mission is to build the ultimate Frames v2 starter experience.
+This is the official template repository for Week One of $hackathon. 
+
+Your mission is to build the ultimate Frames v2 starter experience.
 
 ## 🎯 Challenge Overview
 
