@@ -10,7 +10,7 @@ Build a production-ready website + Frame v2 that helps developers start building
 
 There should be information about them, practical examples, and good documentation.
 
-This of the resources that are now on [framesv2.com](https://framesv2.com), but organized in a way that is more compelling to creators. Showcase the power of frames. Bridge the gap between them and people that want to create experiences on the internet.
+Take as a starting point the resources that are now on [framesv2.com](https://framesv2.com), but organized in a way that is more compelling to creators. Showcase the power of frames. Bridge the gap between them and people that want to create experiences on the internet.
 
 ## 📋 Requirements
 
