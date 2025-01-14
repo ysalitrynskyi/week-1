@@ -26,7 +26,7 @@ Take as a starting point the resources that are now on [framesv2.com](https://fr
 2. Clone your forked repository and add your code to it
 3. Do your magic. It is recommended to commit your progress often. Eventually we will work towards making all this process done by different AIs that will judge the projects based on the github repo history.
 5. Once ready, create a 88 second piece of media that serves as a pitch of what you create, and that is your formal submission
-6. Along with the piece of media, you can submit ONE link
+6. Along with the piece of media, you can submit ONE production ready link
 7. Submit BOTH here: [https://forms.gle/wHXHXwxfBaag1eUi7](https://forms.gle/wHXHXwxfBaag1eUi7)
 
 ## 🏆 Judging Criteria
