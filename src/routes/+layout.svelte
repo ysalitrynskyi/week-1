@@ -1,43 +1,25 @@
-<script>
-    export const ssr = false;
+<script lang="ts">
+  export const ssr = false;
+  import '../app.css';
+  import { ModeWatcher } from 'mode-watcher';
+  import { PrivyProvider } from "@privy-io/react-auth";
+  import { used } from "svelte-preprocess-react";
+  import { base } from "viem/chains";
 
-    import '../app.css';
-    import {ModeWatcher} from 'mode-watcher';
-    import {onMount} from 'svelte';
-    import {defaultConfig} from 'svelte-wagmi';
-    import {injected, walletConnect, coinbaseWallet} from '@wagmi/connectors';
-    import {base} from "viem/chains";
+  used(PrivyProvider);
 
-    // Example environment variables (SvelteKit style):
-    import {PUBLIC_WALLETCONNECT_ID} from '$env/static/public';
-    import {farcasterConnector} from "$lib/farcasterConnector";
-
-    let erckit;
-
-    onMount(async () => {
-        // Call defaultConfig with any options you want:
-        erckit = defaultConfig({
-            appName: 'DBee Builder',
-            walletConnectProjectId: PUBLIC_WALLETCONNECT_ID,
-            chains: [base],
-            autoConnect: true,
-            connectors: [
-                farcasterConnector(),
-                injected(),
-                coinbaseWallet({
-                    appName: 'DBee Builder',
-                    appLogoUrl: 'https://builder.dbee.be/logo.png',
-                }),
-                walletConnect({   // walletConnect connector
-                    projectId: PUBLIC_WALLETCONNECT_ID,
-                }),
-            ]
-        });
-
-        // Initialize the configuration:
-        await erckit.init();
-    });
+  let appId = import.meta.env.VITE_PUBLIC_PRIVY_APP_ID;
 </script>
 
 <ModeWatcher />
-<slot></slot>
+
+<react:PrivyProvider
+  appId={appId}
+  config={{
+    defaultChain: base,
+    supportedChains: [base],
+    loginMethods: ["wallet"],
+  }}
+>
+  <slot />
+</react:PrivyProvider>

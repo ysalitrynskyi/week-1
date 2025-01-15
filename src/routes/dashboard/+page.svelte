@@ -3,12 +3,10 @@
     import Button from '$lib/components/ui/button/button.svelte';
 </script>
 
-<div class="mx-auto mt-24 max-w-7xl px-6 md:px-8">
+<div class="mx-auto mt-5 xl:mt-24 max-w-7xl px-6 md:px-8">
     <div class="flex flex-col items-stretch gap-8 py-12 md:flex-row md:items-start">
-        <!-- User Info -->
         <div class="flex w-full flex-col gap-4 rounded-xl bg-card p-8 shadow-xl md:w-1/3">
             <h2 class="text-2xl font-bold text-primary">User Information</h2>
-
             {#if data.userAddress}
                 {#if data.farcasterUser}
                     <div class="mt-4 flex items-center gap-4">
@@ -26,7 +24,6 @@
                             {/if}
                         </div>
                     </div>
-
                     <div class="mt-4">
                         <p class="text-md text-muted-foreground">Following / Followers:</p>
                         <p class="mt-1 break-all font-mono text-xs text-blue-700 dark:text-blue-400">
@@ -63,7 +60,6 @@
             {/if}
         </div>
 
-        <!-- Actions Section -->
         <div class="flex-1 flex flex-col gap-8">
             <div class="rounded-xl bg-white p-8 shadow-xl dark:bg-background/50 dark:shadow-none">
                 <h1 class="text-3xl font-extrabold text-primary">Create & Convert Frames</h1>

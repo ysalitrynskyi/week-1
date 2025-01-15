@@ -4,7 +4,6 @@ import { supabase } from '$lib/supabase';
 export const handle: Handle = async ({ event, resolve }) => {
 	const token = event.cookies.get('session_token');
 	if (token) {
-		// Check if token is in `sessions` table
 		const { data, error } = await supabase
 			.from('sessions')
 			.select('address')
@@ -15,6 +14,5 @@ export const handle: Handle = async ({ event, resolve }) => {
 			event.locals.userAddress = data.address;
 		}
 	}
-
 	return resolve(event);
 };

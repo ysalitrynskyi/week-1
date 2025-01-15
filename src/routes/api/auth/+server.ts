@@ -2,8 +2,6 @@ import { supabase } from '$lib/supabase';
 import { json, type RequestHandler } from '@sveltejs/kit';
 import { randomBytes } from 'crypto';
 
-// === POST /api/auth ===
-// Upsert user address -> create a session token -> set cookie
 export const POST: RequestHandler = async ({ request, cookies }) => {
 	try {
 		const { address } = await request.json();
@@ -11,7 +9,6 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			return json({ error: 'No address provided' }, { status: 400 });
 		}
 
-		// 1) Upsert the user in `users` table
 		const { error: supabaseError } = await supabase
 			.from('users')
 			.upsert({ address }, { onConflict: 'address'});
@@ -20,10 +17,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			return json({ error: supabaseError.message }, { status: 500 });
 		}
 
-		// 2) Generate random token (session id)
 		const token = randomBytes(16).toString('hex');
 
-		// 3) Insert into `sessions` table
 		const { error: sessionError } = await supabase
 			.from('sessions')
 			.insert({ token, address });
@@ -32,13 +27,12 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			return json({ error: sessionError.message }, { status: 500 });
 		}
 
-		// 4) Set cookie with session token
 		cookies.set('session_token', token, {
 			path: '/',
 			httpOnly: true,
 			sameSite: 'strict',
-			secure: true, // set true in production w/ HTTPS
-			maxAge: 60 * 60 * 24 * 7 // one week
+			secure: true,
+			maxAge: 60 * 60 * 24 * 7
 		});
 
 		return json({ success: true });
@@ -47,18 +41,14 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 	}
 };
 
-// === DELETE /api/auth ===
-// Invalidate session token (logout)
 export const DELETE: RequestHandler = async ({ cookies }) => {
 	const token = cookies.get('session_token');
 	if (token) {
-		// Remove from DB
 		await supabase
 			.from('sessions')
 			.delete()
 			.eq('token', token);
 
-		// Clear cookie
 		cookies.delete('session_token', {
 			path: '/'
 		});
