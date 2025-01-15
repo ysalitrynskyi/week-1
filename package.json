@@ -36,6 +36,7 @@
 	"dependencies": {
 		"@coinbase/wallet-sdk": "^4.2.4",
 		"@farcaster/frame-sdk": "^0.0.26",
+		"@supabase/supabase-js": "^2.47.14",
 		"@tanstack/react-query": "^5.64.1",
 		"@wagmi/connectors": "^5.7.3",
 		"@wagmi/core": "^2.16.3",
