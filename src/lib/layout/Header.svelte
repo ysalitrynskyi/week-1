@@ -80,10 +80,12 @@
 			{#if $wagmiLoaded}
 				{#if $connected || hasSession()}
 					<Button class="mr-2 text-sm" href="/dashboard">Dashboard</Button>
-					<Button variant="secondary" class="mr-6 text-sm" on:click={disconnect}>Disconnect</Button>
+					<Button variant="secondary" class="lg:mr-6 text-sm" on:click={disconnect}>Disconnect</Button>
 				{:else}
-					<Button class="mr-6 text-sm" on:click={openModal}>Connect Wallet</Button>
+					<Button class="lg:mr-6 text-sm" on:click={openModal}>Connect Wallet</Button>
 				{/if}
+			{:else}
+				<Button variant="secondary" class="lg:mr-6 text-sm" disabled>Connect Wallet</Button>
 			{/if}
 		</div>
 	</div>

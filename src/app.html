@@ -5,9 +5,12 @@
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+
+		<meta name="fc:frame" content='{"version":"next","imageUrl":"https://builder-dev.dbee.be/opengraph.png","button":{"title":"Launch DBee Builder","action":{"type":"launch_frame","name":"DBee Builder","url":"https://builder-dev.dbee.be","splashImageUrl":"https://builder-dev.dbee.be/splash.png","splashBackgroundColor":"#000000"}}}' />
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">%sveltekit.body%</div>
+		<script type="module" src="https://esm.town/v/dbee/fcReady" async></script>
 	</body>
 </html>

@@ -1,9 +1,12 @@
 <script>
-    export let data;
+    import Header from "$lib/layout/Header.svelte";
+    import Footer from "$lib/layout/Footer.svelte";
 </script>
 
-<slot />
-
-<p class="p-4 text-sm text-gray-500">
-    Logged in as {data.userAddress}
-</p>
+<div class="min-h-screen bg-background font-sans antialiased">
+    <Header />
+    <div class="mx-auto flex-1 overflow-hidden">
+        <slot></slot>
+    </div>
+    <Footer />
+</div>
