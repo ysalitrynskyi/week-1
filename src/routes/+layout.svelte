@@ -9,6 +9,18 @@
     // Example environment variables (SvelteKit style):
     import { PUBLIC_WALLETCONNECT_ID, PUBLIC_ALCHEMY_ID } from '$env/static/public';
 
+    onMount(async () => {
+        const fcsdk = await import('https://esm.sh/@farcaster/frame-sdk@0.0.26');
+        setTimeout(async () => {
+            try {
+                await fcsdk.actions.ready();
+                console.log('Frame is ready');
+            } catch (error) {
+                console.error('Error marking frame as ready:', error);
+            }
+        }, 100);
+    });
+
     let erckit;
 
     onMount(async () => {
