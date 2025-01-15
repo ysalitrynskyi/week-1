@@ -1,11 +1,12 @@
 // src/routes/dashboard/+layout.server.ts
-import {error, redirect} from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 
 const NEYNAR_API_KEY = import.meta.env.VITE_NEYNAR_API_KEY;
 
-export const load = async ({ locals, fetch }) => {
-    // If the user has no address in locals, they're not logged in.
-    if (!locals.userAddress) {
+export const load = async ({ locals, fetch, cookies }) => {
+    // Check for the session token in cookies
+    const sessionToken = cookies.get('session_token');
+    if (!locals.userAddress || !sessionToken) {
         throw redirect(302, '/');
     }
 
@@ -30,8 +31,8 @@ export const load = async ({ locals, fetch }) => {
             method: 'GET',
             headers: {
                 accept: 'application/json',
-                'x-api-key': NEYNAR_API_KEY
-            }
+                'x-api-key': NEYNAR_API_KEY,
+            },
         });
 
         // Handle non-successful responses
@@ -43,12 +44,12 @@ export const load = async ({ locals, fetch }) => {
         const data = await response.json();
 
         // Extract user data from the response
-        const userData = data[ethAddress.toLowerCase()][0] || null;
+        const userData = data[ethAddress.toLowerCase()]?.[0] || null;
 
         // Return the user's Ethereum address and Farcaster user data
         return {
             userAddress: ethAddress,
-            farcasterUser: userData
+            farcasterUser: userData,
         };
     } catch (err) {
         console.error('Error fetching user data:', err);

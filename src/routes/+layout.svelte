@@ -1,12 +1,16 @@
 <script>
+    export const ssr = false;
+
     import '../app.css';
-    import { ModeWatcher } from 'mode-watcher';
-    import { onMount } from 'svelte';
-    import { defaultConfig } from 'svelte-wagmi';
-    import { injected, walletConnect, coinbaseWallet } from '@wagmi/connectors';
+    import {ModeWatcher} from 'mode-watcher';
+    import {onMount} from 'svelte';
+    import {defaultConfig} from 'svelte-wagmi';
+    import {injected, walletConnect, coinbaseWallet} from '@wagmi/connectors';
+    import {base} from "viem/chains";
 
     // Example environment variables (SvelteKit style):
-    import { PUBLIC_WALLETCONNECT_ID, PUBLIC_ALCHEMY_ID } from '$env/static/public';
+    import {PUBLIC_WALLETCONNECT_ID} from '$env/static/public';
+    import {farcasterConnector} from "$lib/farcasterConnector";
 
     let erckit;
 
@@ -15,8 +19,10 @@
         erckit = defaultConfig({
             appName: 'DBee Builder',
             walletConnectProjectId: PUBLIC_WALLETCONNECT_ID,
-            alchemyId: PUBLIC_ALCHEMY_ID,
+            chains: [base],
+            autoConnect: true,
             connectors: [
+                farcasterConnector(),
                 injected(),
                 coinbaseWallet({
                     appName: 'DBee Builder',

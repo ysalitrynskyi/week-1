@@ -43,7 +43,7 @@
 
 	{#if $wagmiLoaded}
 		{#if $connected}
-			<Button class="-translate-y-4 animate-fade-in gap-1 rounded-lg text-white opacity-0 ease-in-out [--animation-delay:600ms] dark:text-black" href="/dashboard">Go to Dashboard</Button>
+			<Button class="-translate-y-4 animate-fade-in gap-1 rounded-lg text-white opacity-0 ease-in-out [--animation-delay:600ms] dark:text-black" href="/dashboard" rel="external">Go to Dashboard</Button>
 		{:else}
 			<Button class="-translate-y-4 animate-fade-in gap-1 rounded-lg text-white opacity-0 ease-in-out [--animation-delay:600ms] dark:text-black" on:click={openModal}>Connect Wallet</Button>
 		{/if}
