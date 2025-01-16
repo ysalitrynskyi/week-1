@@ -34,10 +34,10 @@
 	</p>
 
 	<!-- Conditionally render the button based on `isInFrame` -->
-	<div class="flex justify-center">
-		<PulsatingButton
-			pulseColor="#7c65c1"
-			class="bg-primary gap-1 rounded-lg text-white ease-in-out"
-		/>
-	</div>
+<!--	<div class="flex justify-center">-->
+<!--		<PulsatingButton-->
+<!--			pulseColor="#7c65c1"-->
+<!--			class="bg-primary gap-1 rounded-lg text-white ease-in-out"-->
+<!--		/>-->
+<!--	</div>-->
 </section>
