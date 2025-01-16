@@ -1,0 +1,99 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: builder-namespace
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: builder-webhook
+  namespace: builder-namespace
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3000
+      targetPort: 3000
+  selector:
+    app: builder-webhook
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: builder-webhook
+  namespace: builder-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: builder-webhook
+  template:
+    metadata:
+      labels:
+        app: builder-webhook
+    spec:
+      containers:
+        - name: builder-webhook
+          image: ca-toronto-1.ocir.io/yzvnwji3edvl/builder-webhook:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: WEB_URL
+              value: "https://builder.dbee.be"
+            - name: VITE_PUBLIC_URL
+              value: "https://builder.dbee.be"
+            - name: VITE_PUBLIC_PRIVY_APP_ID
+              value: ""
+            - name: VITE_PRIVY_APP_SECRET
+              value: ""
+            - name: VITE_SUPABASE_URL
+              value: "https://***.supabase.co"
+            - name: VITE_SUPABASE_PUBLIC_KEY
+              value: ""
+            - name: VITE_SUPABASE_ANON_KEY
+              value: ""
+            - name: VITE_NEYNAR_API_KEY
+              value: ""
+      imagePullSecrets:
+        - name: ocirsecretproperty
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudflared-service-builder-webhook
+  namespace: builder-namespace
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3000
+      targetPort: 3000
+  selector:
+    app: cloudflared-service-builder-webhook
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflared-service-builder-webhook
+  namespace: builder-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudflared-service-builder-webhook
+  template:
+    metadata:
+      labels:
+        app: cloudflared-service-builder-webhook
+    spec:
+      containers:
+        - name: cloudflared
+          image: cloudflare/cloudflared:latest
+          args:
+            - "tunnel"
+            - "--no-autoupdate"
+            - "run"
+            - "--token"
+            - "eyJhIjoiOW..."

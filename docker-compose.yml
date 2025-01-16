@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  builder-dbee-web:
+    build: .
+    container_name: builder-dbee-web
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_PUBLIC_URL=https://builder.dbee.be
+      - VITE_PUBLIC_PRIVY_APP_ID=${VITE_PUBLIC_PRIVY_APP_ID}
+      - VITE_PRIVY_APP_SECRET=${VITE_PRIVY_APP_SECRET}
+      - VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
+      - VITE_SUPABASE_PUBLIC_KEY=${VITE_SUPABASE_PUBLIC_KEY}
+      - VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY}
+      - VITE_NEYNAR_API_KEY=${VITE_NEYNAR_API_KEY}
+    networks:
+      - builder-dbee-network
+    restart: always
+    depends_on:
+      - builder-dbee-cloudflared
+
+  builder-dbee-cloudflared:
+    container_name: builder-dbee-cloudflared
+    image: erisamoe/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    networks:
+      - builder-dbee-network
+
+networks:
+  builder-dbee-network:
+    driver: bridge

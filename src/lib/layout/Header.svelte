@@ -77,19 +77,15 @@
 					Disconnect
 				</Button>
 			{:else}
-				{#if $privyWalletsStore?.wallets && $privyWalletsStore.wallets.length > 0}
-					<Button class="lg:mr-6 text-sm" on:click={() => {
-						if (!$privyStore?.authenticated) {
-							$privyStore?.login();
-						} else {
-							$privyStore?.connectWallet();
-						}
-					}}>
-						Sign In
-					</Button>
-				{:else}
-					<span class="text-sm text-gray-500">Loading...</span>
-				{/if}
+				<Button class="lg:mr-6 text-sm" on:click={() => {
+					if (!$privyStore?.authenticated) {
+						$privyStore?.login();
+					} else {
+						$privyStore?.connectWallet();
+					}
+				}}>
+					Sign In
+				</Button>
 			{/if}
 		</div>
 	</div>
