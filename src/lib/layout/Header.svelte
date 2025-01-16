@@ -9,20 +9,27 @@
 
 	let innerWidth = 0;
 
+	// Check if session exists in cookies
 	function hasSession(): boolean {
 		if (!browser) return false;
 		const cookies = document.cookie.split(';');
 		return cookies.some((c) => c.trim().startsWith('session_token='));
 	}
 
-	$: if ($privyStore && $privyStore.authenticated && $privyWalletsStore && $privyWalletsStore.wallets.length) {
+	// Ensure handleSession runs only when necessary
+	$: if ($privyStore && $privyStore.authenticated && $privyWalletsStore?.wallets?.length) {
 		const address = $privyWalletsStore.wallets[0].address;
 		if (address && !hasSession()) {
 			handleSession(address);
 		}
 	}
 
+	// Send session creation request to the server
 	async function handleSession(address: string) {
+		if (hasSession()) {
+			console.log('Session already exists. Skipping session creation.');
+			return;
+		}
 		try {
 			const res = await fetch('/api/auth', {
 				method: 'POST',
@@ -37,6 +44,7 @@
 		}
 	}
 
+	// Logout function to remove session
 	async function logout() {
 		if ($privyStore) {
 			$privyStore.logout();
@@ -63,7 +71,7 @@
 
 		<div class="ml-auto flex h-full items-center">
 			{#if $privyStore?.ready}
-				{#if $privyStore.authenticated && $privyWalletsStore?.wallets?.length > 0}
+				{#if $privyStore.authenticated}
 					<Button class="mr-2 text-sm" href="/dashboard" rel="external">
 						Dashboard
 					</Button>
@@ -71,15 +79,19 @@
 						Disconnect
 					</Button>
 				{:else}
-					<Button class="lg:mr-6 text-sm" on:click={() => {
-						if (!$privyStore.authenticated) {
-							$privyStore.login();
-						} else {
-							$privyStore.connectWallet();
-						}
-					}}>
-						Sign In
-					</Button>
+					{#if $privyWalletsStore?.wallets?.length > 0}
+						<Button class="lg:mr-6 text-sm" on:click={() => {
+							if (!$privyStore.authenticated) {
+								$privyStore.login();
+							} else {
+								$privyStore.connectWallet();
+							}
+						}}>
+							Sign In
+						</Button>
+					{:else}
+						Loading..
+					{/if}
 				{/if}
 			{:else}
 <!--				<Button variant="secondary" class="lg:mr-6 text-sm" disabled>Sign In</Button>-->
