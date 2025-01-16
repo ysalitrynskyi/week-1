@@ -77,9 +77,13 @@
 					Disconnect
 				</Button>
 			{:else}
-				{#if $privyWalletsStore?.wallets}
+				{#if $privyWalletsStore?.wallets && $privyWalletsStore.wallets.length > 0}
 					<Button class="lg:mr-6 text-sm" on:click={() => {
+						if (!$privyStore?.authenticated) {
+							$privyStore?.login();
+						} else {
 							$privyStore?.connectWallet();
+						}
 					}}>
 						Sign In
 					</Button>
