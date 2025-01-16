@@ -42,9 +42,10 @@
 <style>
   /* HTML: <div class="loader"></div> */
   .loader {
-    width: 45px;
-    height: 30px;
-    animation: l1 2s infinite linear;
+    width: 50px;
+    aspect-ratio: 1;
+    box-shadow: 0 0 0 3px #fff inset;
+    border-radius: 50%;
 
     /* Centering loader */
     display: flex;
@@ -56,21 +57,27 @@
     transform: translate(-50%, -50%); /* Adjust for size */
     font-size: 1.5rem;
   }
-  @keyframes l1{
-    0%,
-    25%  {background:
-      linear-gradient(#e50021 0 0) 50% 0/66% 100% no-repeat}
-    25.1%,
-    50%  {background:
-      linear-gradient(#004ce4 0 0) 0 0/100% 50% no-repeat,
-      linear-gradient(#004ce4 0 0) 0 0/33% 100% no-repeat}
-    50.1%,
-    75%  {background:
-      linear-gradient(#00e622 0 0) 100% 0/66% 50% no-repeat,
-      linear-gradient(#00e622 0 0) 0 100%/66% 50% no-repeat}
-    75.1%,
-    100% {background:
-      linear-gradient(#9d0be6 0 0) 0 100%/100% 50% no-repeat,
-      linear-gradient(#9d0be6 0 0) 50% 0 /33%  50% no-repeat}
+  .loader:before,
+  .loader:after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: calc(50% - 12.5px);
+    box-shadow: inherit;
+    width: 25px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    transform-origin: 50% calc(100% - 5px);
+    animation: l7 1.5s linear infinite;
+  }
+  .loader:after {
+    top: calc(100% + 2px);
+    transform-origin: 50% -27px;
+    animation-delay: -0.75s;
+  }
+  @keyframes l7 {
+    to {
+      transform: rotate(360deg);
+    }
   }
 </style>
