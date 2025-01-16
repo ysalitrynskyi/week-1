@@ -2,22 +2,6 @@
 	import { seo } from '$lib';
 	import CtaSection from '$lib/components/landing/CtaSection.svelte';
 	import HeroSection from '$lib/components/landing/HeroSection.svelte';
-
-	const appUrl = import.meta.env.VITE_PUBLIC_URL || 'http://localhost:5173';
-	const frame = {
-		version: "next",
-		imageUrl: `${appUrl}/opengraph.png`,
-		button: {
-			title: "Launch DBee Builder",
-			action: {
-				type: "launch_frame",
-				name: "DBee Builder",
-				url: appUrl,
-				splashImageUrl: `${appUrl}/splash.png`,
-				splashBackgroundColor: "black",
-			},
-		},
-	};
 </script>
 
 <svelte:head>
@@ -35,7 +19,7 @@
 	<meta name="twitter:title" content={seo.title} />
 	<meta name="twitter:description" content={seo.description} />
 	<meta name="twitter:image" content={seo.image} />
-	<meta name="twitter:site" content="@Sikandar_Bhide" />
+	<meta name="twitter:site" content="@dalresin" />
 </svelte:head>
 
 <HeroSection />

@@ -66,9 +66,14 @@ const config: Config = {
 				'fade-up': 'fade-up 1000ms var(--animation-delay, 0ms) ease forwards',
 				shimmer: 'shimmer 8s infinite',
 				marquee: 'marquee var(--duration) infinite linear',
-				'marquee-vertical': 'marquee-vertical var(--duration) linear infinite'
+				'marquee-vertical': 'marquee-vertical var(--duration) linear infinite',
+				pulse: "pulse var(--duration) ease-out infinite",
 			},
 			keyframes: {
+				pulse: {
+					"0%, 100%": { boxShadow: "0 0 0 0 var(--pulse-color)" },
+					"50%": { boxShadow: "0 0 0 8px var(--pulse-color)" },
+				},
 				'accordion-down': {
 					from: { height: '0' },
 					to: { height: 'var(--radix-accordion-content-height)' }

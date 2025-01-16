@@ -8,7 +8,6 @@
 	const privyWalletsStore = hooks(() => useWallets());
 
 	let innerWidth = 0;
-	let isLoading = true;
 
 	// Check if session exists in cookies
 	function hasSession(): boolean {
@@ -19,8 +18,6 @@
 
 	// Modified session handling logic
 	$: if ($privyStore?.ready) {
-		isLoading = !$privyStore?.authenticated || !$privyWalletsStore?.wallets?.length;
-
 		if ($privyStore?.authenticated && $privyWalletsStore?.wallets?.length) {
 			const address = $privyWalletsStore.wallets[0].address;
 			// Only create session if we have an address and no existing session
@@ -72,30 +69,22 @@
 		<a class="text-md flex items-center" href="/">DBee Builder</a>
 
 		<div class="ml-auto flex h-full items-center">
-			{#if isLoading}
-				<span class="text-sm text-gray-500">Loading...</span>
+			{#if $privyStore?.authenticated}
+				<Button class="mr-2 text-sm" href="/dashboard" rel="external">
+					Dashboard
+				</Button>
+				<Button variant="secondary" class="lg:mr-6 text-sm" on:click={logout}>
+					Disconnect
+				</Button>
 			{:else}
-				{#if $privyStore?.authenticated}
-					<Button class="mr-2 text-sm" href="/dashboard" rel="external">
-						Dashboard
-					</Button>
-					<Button variant="secondary" class="lg:mr-6 text-sm" on:click={logout}>
-						Disconnect
+				{#if $privyWalletsStore?.wallets}
+					<Button class="lg:mr-6 text-sm" on:click={() => {
+							$privyStore?.connectWallet();
+					}}>
+						Sign In
 					</Button>
 				{:else}
-					{#if $privyWalletsStore?.wallets && $privyWalletsStore.wallets.length > 0}
-						<Button class="lg:mr-6 text-sm" on:click={() => {
-							if (!$privyStore?.authenticated) {
-								$privyStore?.login();
-							} else {
-								$privyStore?.connectWallet();
-							}
-						}}>
-							Sign In
-						</Button>
-					{:else}
-						<span class="text-sm text-gray-500">Loading...</span>
-					{/if}
+					<span class="text-sm text-gray-500">Loading...</span>
 				{/if}
 			{/if}
 		</div>

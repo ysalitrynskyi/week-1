@@ -1,12 +1,12 @@
 // place files you want to import through the `$lib` alias in this folder.
 
 export let seo = {
-	title: 'Svelte Startup Template',
+	title: 'DBee Builder',
 	description:
-		'Svelte Startup Template is a template for building Startup Applications. It is built with SvelteKit, TailwindCSS, and Svelte Animations',
-	image: 'https://i.pinimg.com/736x/85/9a/92/859a92a2629f912010a0a72270aefedc.jpg',
-	twitter: 'SEO twitter',
-	url: 'https://startup-sve.vercel.app',
-	keywords: 'svelte, sveltekit, tailwindcss, svelte animations, startup, template'
+		'DBee Builder is the new way to build Farcaster V2 Frames.',
+	image: 'https://builder.dbee.be/opengraph.png',
+	twitter: 'DBee Builder is the new way to build Farcaster V2 Frames.',
+	url: 'https://builder.dbee.be',
+	keywords: 'svelte, sveltekit, tailwindcss, svelte animations, farcaster, frames, warpcast, dalresin'
 };
 

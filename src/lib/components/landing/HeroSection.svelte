@@ -1,6 +1,23 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import PulsatingButton from '$lib/components/magic/PulsatingButton.svelte';
 	import { ArrowRightIcon } from 'lucide-svelte';
 	import AnimatedShinyText from '$lib/components/magic/AnimatedShinyText/AnimatedShinyText.svelte';
+
+	export let isInFrame = false;
+
+	onMount(() => {
+		// Check the global `isInFrame` flag set by the Val script
+		isInFrame = window.isInFrame || false;
+	});
+
+	const handleAddFrame = () => {
+		if (window.addFrame) {
+			window.addFrame();
+		} else {
+			console.error("addFrame function is not available.");
+		}
+	};
 </script>
 
 <section id="hero" class="relative mx-auto mt-32 mb-32 max-w-7xl px-6 text-center md:px-8">
@@ -31,4 +48,15 @@
 		Tailwind CSS, <a href="https://svelte.dev" class="underline underline-offset-2">Svelte</a>, and
 		<a href="https://animation-svelte.vercel.app" class="underline underline-offset-2">Svelte Animations</a>.
 	</p>
+
+	<!-- Conditionally render the button based on `isInFrame` -->
+	{#if isInFrame}
+		<div class="flex justify-center">
+			<PulsatingButton
+				pulseColor="#7c65c1"
+				class="bg-primary gap-1 rounded-lg text-white ease-in-out"
+				on:click={handleAddFrame}
+			/>
+		</div>
+	{/if}
 </section>
