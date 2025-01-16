@@ -29,17 +29,20 @@ import fcsdk from "https://esm.sh/@farcaster/frame-sdk@0.0.26";
     document.addEventListener("click", (event) => {
       const target = event.target;
 
-      // Check if the target is a button or a link
-      if (target.tagName === "BUTTON" || target.tagName === "A") {
-        console.log("Click detected on:", target.textContent);
+      // Find the closest button if the click target is nested inside
+      const button = target.closest("button");
+      if (button) {
+        const textContent = button.textContent?.trim();
+
+        console.log("Click detected on button:", textContent);
 
         // Trigger addFrame if the text content matches "Add Frame"
-        if (target.textContent?.trim() === "Add Frame") {
+        if (textContent === "Add Frame") {
           window.addFrame();
         }
 
         // Trigger closeFrame if the text content matches "Close"
-        if (target.textContent?.trim() === "Close") {
+        if (textContent === "Close") {
           window.closeFrame();
         }
       }
