@@ -8,6 +8,7 @@
 	const privyWalletsStore = hooks(() => useWallets());
 
 	let innerWidth = 0;
+	let isLoading = true;
 
 	// Check if session exists in cookies
 	function hasSession(): boolean {
@@ -16,20 +17,21 @@
 		return cookies.some((c) => c.trim().startsWith('session_token='));
 	}
 
-	// Ensure handleSession runs only when necessary
-	$: if ($privyStore && $privyStore.authenticated && $privyWalletsStore?.wallets?.length) {
-		const address = $privyWalletsStore.wallets[0].address;
-		if (address && !hasSession()) {
-			handleSession(address);
+	// Modified session handling logic
+	$: if ($privyStore?.ready) {
+		isLoading = !$privyStore?.authenticated || !$privyWalletsStore?.wallets?.length;
+
+		if ($privyStore?.authenticated && $privyWalletsStore?.wallets?.length) {
+			const address = $privyWalletsStore.wallets[0].address;
+			// Only create session if we have an address and no existing session
+			if (address && !hasSession()) {
+				handleSession(address);
+			}
 		}
 	}
 
 	// Send session creation request to the server
 	async function handleSession(address: string) {
-		if (hasSession()) {
-			console.log('Session already exists. Skipping session creation.');
-			return;
-		}
 		try {
 			const res = await fetch('/api/auth', {
 				method: 'POST',
@@ -65,13 +67,15 @@
 
 <svelte:window bind:innerWidth />
 
-<header class="fixed left-0 top-0 z-50 w-full -translate-y-4 animate-fade-in border-b opacity-0 backdrop-blur-md">
+<header class="fixed left-0 top-0 z-50 w-full border-b backdrop-blur-md">
 	<div class="container flex h-14 items-center justify-between">
 		<a class="text-md flex items-center" href="/">DBee Builder</a>
 
 		<div class="ml-auto flex h-full items-center">
-			{#if $privyStore?.ready}
-				{#if $privyStore.authenticated}
+			{#if isLoading}
+				<span class="text-sm text-gray-500">Loading...</span>
+			{:else}
+				{#if $privyStore?.authenticated}
 					<Button class="mr-2 text-sm" href="/dashboard" rel="external">
 						Dashboard
 					</Button>
@@ -79,22 +83,20 @@
 						Disconnect
 					</Button>
 				{:else}
-					{#if $privyWalletsStore?.wallets?.length > 0}
+					{#if $privyWalletsStore?.wallets && $privyWalletsStore.wallets.length > 0}
 						<Button class="lg:mr-6 text-sm" on:click={() => {
-							if (!$privyStore.authenticated) {
-								$privyStore.login();
+							if (!$privyStore?.authenticated) {
+								$privyStore?.login();
 							} else {
-								$privyStore.connectWallet();
+								$privyStore?.connectWallet();
 							}
 						}}>
 							Sign In
 						</Button>
 					{:else}
-						Loading..
+						<span class="text-sm text-gray-500">Loading...</span>
 					{/if}
 				{/if}
-			{:else}
-<!--				<Button variant="secondary" class="lg:mr-6 text-sm" disabled>Sign In</Button>-->
 			{/if}
 		</div>
 	</div>
