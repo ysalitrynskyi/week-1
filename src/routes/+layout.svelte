@@ -30,7 +30,7 @@
     config={{
       defaultChain: base,
       supportedChains: [base],
-      loginMethods: ["wallet"],
+      loginMethods: ["farcaster", "wallet"],
     }}
   >
     <slot />
